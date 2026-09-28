@@ -185,6 +185,24 @@ export default function UserListScreen({ navigation }) {
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
       <ConnectionBanner />
+      <View
+        style={[
+          styles.currentUser,
+          { backgroundColor: theme.surface, borderBottomColor: theme.border },
+        ]}
+      >
+        <UserAvatar name={user.username} size={40} />
+        <View style={styles.rowText}>
+          <Text
+            style={[styles.currentUserLabel, { color: theme.secondaryText }]}
+          >
+            Signed in as
+          </Text>
+          <Text style={[styles.name, { color: theme.text }]}>
+            {displayName(user.username)}
+          </Text>
+        </View>
+      </View>
       {body}
     </View>
   );
@@ -193,6 +211,14 @@ export default function UserListScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   emptyList: { flexGrow: 1 },
+  currentUser: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  currentUserLabel: { fontSize: 12, marginBottom: 2 },
   row: {
     flexDirection: 'row',
     alignItems: 'center',

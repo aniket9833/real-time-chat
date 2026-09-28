@@ -50,14 +50,18 @@ export default function ChatScreen({ route, navigation }) {
   );
 
   const renderItem = useCallback(
-    ({ item }) => (
-      <MessageBubble
-        message={item}
-        isMine={item.senderId === user._id}
-        onPressFailed={handleFailedPress}
-      />
-    ),
-    [user._id, handleFailedPress],
+    ({ item }) => {
+      const isMine = item.senderId === user._id;
+      return (
+        <MessageBubble
+          message={item}
+          isMine={isMine}
+          senderName={isMine ? user.username : partner.username}
+          onPressFailed={handleFailedPress}
+        />
+      );
+    },
+    [user._id, user.username, partner.username, handleFailedPress],
   );
 
   // Inverted list: newest at the bottom, stays pinned there, older pages load on scroll up

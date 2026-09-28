@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import UserAvatar from './UserAvatar';
 import { useTheme } from '../context/ThemeContext';
 import { formatTime } from '../utils/formatTime';
 
@@ -24,16 +25,26 @@ function StatusTicks({ status, theme }) {
   }
 }
 
-function MessageBubble({ message, isMine, onPressFailed }) {
+function MessageBubble({ message, isMine, senderName, onPressFailed }) {
   const { theme } = useTheme();
   const failed = message.status === 'failed';
 
   const bubbleColor = isMine ? theme.messageSent : theme.messageReceived;
   const textColor = isMine ? theme.messageSentText : theme.messageReceivedText;
   const metaColor = isMine ? theme.messageSentMeta : theme.secondaryText;
+  const avatar = (
+    <View
+      style={styles.avatar}
+      accessible
+      accessibilityLabel={`${senderName}'s avatar`}
+    >
+      <UserAvatar name={senderName} size={28} />
+    </View>
+  );
 
   return (
     <View style={[styles.row, isMine ? styles.rowMine : styles.rowTheirs]}>
+      {!isMine ? avatar : null}
       <Pressable
         disabled={!failed}
         onPress={() => onPressFailed?.(message)}
@@ -59,6 +70,7 @@ function MessageBubble({ message, isMine, onPressFailed }) {
           </Text>
         ) : null}
       </Pressable>
+      {isMine ? avatar : null}
     </View>
   );
 }
@@ -66,11 +78,17 @@ function MessageBubble({ message, isMine, onPressFailed }) {
 export default memo(MessageBubble);
 
 const styles = StyleSheet.create({
-  row: { paddingHorizontal: 12, marginVertical: 3, flexDirection: 'row' },
+  row: {
+    paddingHorizontal: 12,
+    marginVertical: 3,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+  },
   rowMine: { justifyContent: 'flex-end' },
   rowTheirs: { justifyContent: 'flex-start' },
+  avatar: { marginHorizontal: 6 },
   bubble: {
-    maxWidth: '80%',
+    maxWidth: '76%',
     paddingHorizontal: 14,
     paddingTop: 8,
     paddingBottom: 6,
