@@ -9,9 +9,9 @@ import {
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
-// import ChatScreen from '../screens/ChatScreen';
+import ChatScreen from '../screens/ChatScreen';
 import LoginScreen from '../screens/LoginScreen';
-// import UserListScreen from '../screens/UserListScreen';
+import UserListScreen from '../screens/UserListScreen';
 
 const Stack = createNativeStackNavigator();
 
