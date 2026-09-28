@@ -7,6 +7,7 @@ import React, {
 import {
   Alert,
   FlatList,
+  Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -82,7 +83,13 @@ export default function UserListScreen({ navigation }) {
   }, [loadUsers]);
 
   const confirmLogout = useCallback(() => {
-    Alert.alert('Log out', `Log out of ${displayName(user.username)}?`, [
+    const message = `Log out of ${displayName(user.username)}?`;
+    if (Platform.OS === 'web') {
+      if (globalThis.confirm(message)) logout();
+      return;
+    }
+
+    Alert.alert('Log out', message, [
       { text: 'Cancel', style: 'cancel' },
       { text: 'Log out', style: 'destructive', onPress: logout },
     ]);
