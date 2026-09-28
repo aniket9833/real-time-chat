@@ -4,6 +4,7 @@ import React, {
   useLayoutEffect,
   useState,
 } from 'react';
+import { SymbolView } from 'expo-symbols';
 import {
   Alert,
   FlatList,
@@ -102,10 +103,35 @@ export default function UserListScreen({ navigation }) {
           <Pressable
             onPress={toggleTheme}
             hitSlop={8}
-            style={styles.headerButton}
-            accessibilityLabel="Toggle dark mode"
+            style={({ pressed }) => [
+              styles.themeButton,
+              {
+                backgroundColor: pressed ? theme.border : theme.inputBackground,
+              },
+            ]}
+            accessibilityRole="button"
+            accessibilityLabel={
+              isDark ? 'Switch to light mode' : 'Switch to dark mode'
+            }
+            title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
           >
-            <Text style={styles.headerIcon}>{isDark ? '☀️' : '🌙'}</Text>
+            <SymbolView
+              name={
+                isDark
+                  ? {
+                      ios: 'sun.max.fill',
+                      android: 'light_mode',
+                      web: 'light_mode',
+                    }
+                  : {
+                      ios: 'moon.stars.fill',
+                      android: 'dark_mode',
+                      web: 'dark_mode',
+                    }
+              }
+              size={20}
+              tintColor={theme.primary}
+            />
           </Pressable>
           <Pressable
             onPress={confirmLogout}
@@ -120,7 +146,15 @@ export default function UserListScreen({ navigation }) {
         </View>
       ),
     });
-  }, [navigation, isDark, theme.primary, toggleTheme, confirmLogout]);
+  }, [
+    navigation,
+    isDark,
+    theme.primary,
+    theme.border,
+    theme.inputBackground,
+    toggleTheme,
+    confirmLogout,
+  ]);
 
   const renderItem = ({ item }) => (
     <Pressable
@@ -236,6 +270,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  headerIcon: { fontSize: 20 },
+  themeButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 8,
+  },
   logout: { fontSize: 15, fontWeight: '600' },
 });
