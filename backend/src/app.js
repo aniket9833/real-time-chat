@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import authRoutes from './routes/auth.routes.js';
 import userRoutes from './routes/user.routes.js';
+import messageRoutes from './routes/message.routes.js';
 import { errorHandler, notFound } from './middleware/error.middleware.js';
 
 const allowedOrigins = (process.env.CLIENT_URL || '')
@@ -26,6 +27,7 @@ app.get('/api/health', (_req, res) =>
 );
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/messages', messageRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
