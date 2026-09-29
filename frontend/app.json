@@ -7,6 +7,11 @@
     "userInterfaceStyle": "automatic",
     "android": {
       "package": "com.chatflow.app"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ee4671cd-986e-4ad6-b408-a8519010bf5b"
+      }
     }
   }
 }
